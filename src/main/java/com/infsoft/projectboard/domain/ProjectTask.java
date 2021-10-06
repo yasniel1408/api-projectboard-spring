@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.validation.constraints.NotBlank;
 
 @Entity
 public class ProjectTask {
@@ -12,8 +13,9 @@ public class ProjectTask {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank(message = "Summary cannot be blank")
     private String summary;
-    private String acceptanceCriterial;
+    private String acceptanceCriteria;
     private String status;
 
     public ProjectTask() {
@@ -35,12 +37,12 @@ public class ProjectTask {
         this.summary = summary;
     }
 
-    public String getAcceptanceCriterial() {
-        return acceptanceCriterial;
+    public String getAcceptanceCriteria() {
+        return acceptanceCriteria;
     }
 
-    public void setAcceptanceCriterial(String acceptanceCriterial) {
-        this.acceptanceCriterial = acceptanceCriterial;
+    public void setAcceptanceCriteria(String acceptanceCriteria) {
+        this.acceptanceCriteria = acceptanceCriteria;
     }
 
     public String getStatus() {
