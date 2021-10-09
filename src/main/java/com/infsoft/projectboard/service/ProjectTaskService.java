@@ -5,6 +5,8 @@ import com.infsoft.projectboard.repository.ProjectTaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class ProjectTaskService {
 
@@ -18,5 +20,13 @@ public class ProjectTaskService {
         }
 
         return projectTaskRepository.save(projectTask);
+    }
+
+    public Iterable<ProjectTask> findAllProjectTask(){
+        return projectTaskRepository.findAll();
+    }
+
+    public Optional<ProjectTask> findByIdProjectTask(Long id){
+        return projectTaskRepository.findById(id);
     }
 }
