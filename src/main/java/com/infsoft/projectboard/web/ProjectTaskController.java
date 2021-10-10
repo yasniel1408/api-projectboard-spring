@@ -15,15 +15,15 @@ import java.util.Map;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/board")
+@RequestMapping("/api")
 @CrossOrigin
 public class ProjectTaskController {
 
     @Autowired
     private ProjectTaskService projectTaskService;
 
-    @PostMapping("")
-    public ResponseEntity<?> addProjectTaskToBoard(@Valid @RequestBody ProjectTask projectTask, BindingResult result){
+    @PostMapping("/task")
+    public ResponseEntity<?> addOrUpdateProjectTaskToBoard(@Valid @RequestBody ProjectTask projectTask, BindingResult result){
         if(result.hasErrors()){
             Map<String, String> errorMap = new HashMap<>();
             for (FieldError error: result.getFieldErrors()) {
@@ -35,18 +35,24 @@ public class ProjectTaskController {
         return new ResponseEntity<ProjectTask>(newProjectTask, HttpStatus.CREATED);
     }
 
-    @GetMapping("")
+    @GetMapping("/tasks")
     public Iterable<ProjectTask> getAllProjectTask(){
         return  projectTaskService.findAllProjectTask();
     }
 
-    @GetMapping("/{td_id}")
-    public ResponseEntity<?> getProjectTaskById(@PathVariable Long td_id){
-        Optional<ProjectTask> projectTask = projectTaskService.findByIdProjectTask(td_id);
+    @GetMapping("/tasks/{id}")
+    public ResponseEntity<?> getProjectTaskById(@PathVariable Long id){
+        Optional<ProjectTask> projectTask = projectTaskService.findByIdProjectTask(id);
         if(projectTask.isPresent()){
             return new ResponseEntity<ProjectTask>(projectTask.get(), HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @DeleteMapping("/tasks/{id}")
+    public ResponseEntity<?> deleteProjectTaskById(@PathVariable Long id){
+        projectTaskService.deleteByIdProjectTask(id);
+        return new ResponseEntity<String>("Project Task Deleted", HttpStatus.OK);
     }
 
 }
